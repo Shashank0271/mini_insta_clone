@@ -1,0 +1,8 @@
+{
+  "extends": "@react-native/typescript-config/tsconfig.json",
+  "compilerOptions": {
+    "strict": true, // Enables all strict type-checking options
+    "noImplicitAny": true // Raise error on expressions and declarations with an implied 'any' type
+    // Add any other custom compiler options here
+  }
+}
