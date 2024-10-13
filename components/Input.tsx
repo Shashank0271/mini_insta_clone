@@ -1,10 +1,6 @@
 import {StyleSheet, Text, TextInput, TextInputProps, View} from 'react-native';
 import React, {useState} from 'react';
-import {
-  KeyboardTypeOptions,
-  NativeSyntheticEvent,
-  TextInputChangeEventData,
-} from 'react-native';
+import {NativeSyntheticEvent, TextInputChangeEventData} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function Input({
@@ -19,21 +15,30 @@ export default function Input({
   onChangeText,
   ...props
 }: {
-  backgroundColor: string;
-  borderColor: string;
-  borderWidth: number;
-  underlineColorAndroid: string;
+  backgroundColor?: string;
+  borderColor?: string;
+  borderWidth?: number;
+  underlineColorAndroid?: string;
   secure?: boolean;
   label?: string;
-  leftIcon?: string;
-  borderRadius: number;
+  leftIcon?: React.ReactNode;
+  borderRadius?: number;
   onChangeText: (e: string) => void;
 } & TextInputProps) {
-  const [secureText, setSecureText] = useState<boolean | undefined>(undefined);
+  //we have to show the eye when the text input is focused
+  //when focus is removed AND the text input is empty then we remove the eye
+  const [secureText, setSecureText] = useState<boolean | undefined>(
+    secure === true ? true : undefined,
+  );
+  const [showEye, setShowEye] = useState(false);
+  const [contentLength, setContentLength] = useState(0);
+
   return (
     <>
       {label && label.length > 0 ? (
-        <Text style={{fontWeight: '900', fontSize: 16}}>{label}</Text>
+        <Text style={{fontWeight: '800', fontSize: 16, color: '#818589'}}>
+          {label}
+        </Text>
       ) : null}
       <View
         style={[
@@ -52,23 +57,31 @@ export default function Input({
           onChangeText={onChangeText}
           onChange={(e: NativeSyntheticEvent<TextInputChangeEventData>) => {
             const contentLength = e.nativeEvent.text.length;
-            if (secure) {
-              if (contentLength > 0) {
-                setSecureText(true);
-              } else {
-                setSecureText(undefined);
-              }
+            setContentLength(contentLength);
+          }}
+          onFocus={() => {
+            setShowEye(true);
+          }}
+          onBlur={() => {
+            if (contentLength === 0) {
+              setShowEye(false);
             }
           }}
           placeholderTextColor={'grey'}
-          style={{flex: 1, fontSize: 18}}
+          style={{flex: 1, fontSize: 18, color: 'black'}}
           {...props}
         />
-        {secureText === true ? (
-          <Icon name="eye" size={24} onPress={() => setSecureText(false)} />
-        ) : secureText === false ? (
+        {!showEye ? null : secureText === true ? (
           <Icon
             name="eye-slash"
+            color={'grey'}
+            size={24}
+            onPress={() => setSecureText(false)}
+          />
+        ) : secureText === false ? (
+          <Icon
+            name="eye"
+            color={'grey'}
             size={24}
             onPress={() => setSecureText(true)}
           />
