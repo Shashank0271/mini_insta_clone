@@ -2,9 +2,11 @@ import {StyleSheet, Text, View} from 'react-native';
 import React, {FC} from 'react';
 import {fontFamily} from '../../../constants/fonts';
 import Icon from 'react-native-vector-icons/AntDesign';
+import { useNavigation } from '@react-navigation/native';
+import { RootStackNavigationProp } from '../../../type';
 
 const HomeScreenHeader: FC = () => {
-  // const navigation = useNavigation<RootStackNavigationProp>();
+  const navigation = useNavigation<RootStackNavigationProp>();
   return (
     <View style={styles.headerContainer}>
       <Text style={styles.instagramText}>Instagram</Text>
@@ -14,7 +16,7 @@ const HomeScreenHeader: FC = () => {
           name="message1"
           color={'#FFF'}
           size={24}
-          // onPress={() => navigation.navigate('ChatScreen')}
+          onPress={() => navigation.navigate('ChatScreen')}
         />
       </View>
     </View>

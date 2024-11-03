@@ -1,7 +1,11 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import {createAsyncThunk} from '@reduxjs/toolkit';
+import axios from 'axios';
+import {API_BASEURL} from '../../constants/constants';
+import {AppUser} from '../reducers/user';
 
-// const API_BASE_URL = 
-
-const fetchUserFromDb = createAsyncThunk('fetchUserFromDb', async () => {
-    
-});
+export const fetchUserBySID = createAsyncThunk(
+  'fetchUserFromDb',
+  async (supabaseId: string): Promise<AppUser> => {
+    return (await axios.get(`${API_BASEURL}user/${supabaseId}`)).data;
+  },
+);

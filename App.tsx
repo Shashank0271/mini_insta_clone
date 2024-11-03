@@ -4,11 +4,12 @@ import {StyleSheet} from 'react-native';
 import StackScreen from './screens/StackScreen/StackScreen';
 import {supabase} from './config/supabase_config';
 import {Session} from '@supabase/supabase-js';
+import {Provider} from 'react-redux';
+import {store} from './redux/store';
+import LoadingScreen from './screens/Loading/LoadingScreen';
 
 function App() {
-
   const [session, setSession] = useState<Session | null>();
-
   useEffect(() => {
     supabase.auth.getSession().then(({data: {session}}) => {
       setSession(session);
@@ -18,14 +19,18 @@ function App() {
       setSession(session);
     });
   }, []);
-  
+
   return (
-    <NavigationContainer>
-      <StackScreen session={session} />
-    </NavigationContainer>
+    <Provider store={store}>
+      {session === undefined ? (
+        <LoadingScreen /> 
+      ) : (
+        <NavigationContainer>
+          <StackScreen session={session} />
+        </NavigationContainer>
+      )}
+    </Provider>
   );
 }
-
-const styles = StyleSheet.create({});
 
 export default App;

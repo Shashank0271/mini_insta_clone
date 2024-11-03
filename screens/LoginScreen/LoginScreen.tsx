@@ -3,7 +3,6 @@ import {
   View,
   Text,
   TouchableOpacity,
-  StatusBar,
   Keyboard,
 } from 'react-native';
 import React, {FC, useEffect, useState} from 'react';

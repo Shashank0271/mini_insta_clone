@@ -4,7 +4,7 @@ import ProfileCircle from './components/ProfileCircle';
 
 const HomeScreen: FC = () => {
   return (
-    <View>
+    <View style={styles.screen}>
       <ProfileCircle />
     </View>
   );
@@ -12,4 +12,6 @@ const HomeScreen: FC = () => {
 
 export default HomeScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  screen: {flex: 1, backgroundColor: '#000'},
+});
