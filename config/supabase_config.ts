@@ -9,7 +9,6 @@ const supabaseAnonKey: string =
 
 AppState.addEventListener('change', state => {
   if (state === 'active') {
-    
     //foreground
     supabase.auth.startAutoRefresh();
   } else {

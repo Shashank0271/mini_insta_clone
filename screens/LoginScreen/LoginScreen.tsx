@@ -6,7 +6,7 @@ import {
   StatusBar,
   Keyboard,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {supabase} from '../../config/supabase_config';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Input from '../../components/Input';
@@ -14,10 +14,9 @@ import * as yup from 'yup';
 import YupPassword from 'yup-password';
 import {Formik} from 'formik';
 import {User} from '@supabase/supabase-js';
-import {Platform, KeyboardAvoidingView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {useHeaderHeight} from '@react-navigation/elements';
+import {RootStackNavigationProp} from '../../type';
 
 YupPassword(yup);
 
@@ -36,10 +35,10 @@ const LoginValidationSchema = yup.object({
   // .minSymbols(1, passwordErrorMessage),
 });
 
-const LoginScreen = () => {
+const LoginScreen: FC = () => {
   const [keyBoardShowing, setKeyBoardShowing] = useState(false);
 
-  const navigation = useNavigation<any>();
+  const navigation = useNavigation<RootStackNavigationProp>();
 
   useEffect(() => {
     const showSubsctiption = Keyboard.addListener('keyboardDidShow', () => {
@@ -56,74 +55,71 @@ const LoginScreen = () => {
 
   return (
     <SafeAreaView style={[styles.screen]}>
-        <Formik
-          initialValues={{email: '', password: ''}}
-          
-          onSubmit={async ({email, password}) => {
+      <Formik
+        initialValues={{email: '', password: ''}}
+        onSubmit={async ({email, password}) => {
+          const {
+            data: {user, session},
+            error,
+          } = await supabase.auth.signInWithPassword({email, password});
 
-            const {
-              data: {user, session},
-              error,
-            } = await supabase.auth.signInWithPassword({email, password});
+          if (error) {
+            console.log(error.message);
+            //TODO : show a snackbar displaying the error message
+          } else {
+            const {id: supabaseId, email} = user as User;
+            //TODO : fetch the user from the database using supabaseId and update the state
+          }
+        }}
+        validationSchema={LoginValidationSchema}>
+        {({
+          handleChange,
+          values: {email, password},
+          handleSubmit,
+          errors: {email: emailError, password: passwordError},
+        }) => (
+          <View style={{gap: 5, width: '100%'}}>
+            <Input
+              placeholder="Enter email"
+              borderColor="black"
+              leftIcon={<Icon name="envelope" size={18} color={'grey'} />}
+              label="Email"
+              keyboardType="email-address"
+              onChangeText={handleChange('email')}
+              value={email}
+              secure={false}
+            />
+            {emailError ? (
+              <Text style={{color: 'red'}}>{emailError}</Text>
+            ) : null}
 
-            if (error) {
-              console.log(error.message);
-              //TODO : show a snackbar displaying the error message
-            } else {
-              const {id: supabaseId, email} = user as User;
-              //TODO : fetch the user from the database using supabaseId and update the state
-            }
-          }}
-          validationSchema={LoginValidationSchema}>
-          {({
-            handleChange,
-            values: {email, password},
-            handleSubmit,
-            errors: {email: emailError, password: passwordError},
-          }) => (
-            <View style={{gap: 5, width: '100%'}}>
-              <Input
-                placeholder="Enter email"
-                borderColor="black"
-                leftIcon={<Icon name="envelope" size={18} color={'grey'} />}
-                label="Email"
-                keyboardType="email-address"
-                onChangeText={handleChange('email')}
-                value={email}
-                secure={false}
-              />
-              {emailError ? (
-                <Text style={{color: 'red'}}>{emailError}</Text>
-              ) : null}
+            <Input
+              placeholder="Enter password"
+              leftIcon={<Icon name="lock" size={24} color={'grey'} />}
+              label="Password"
+              borderColor="black"
+              onChangeText={handleChange('password')}
+              secure={true}
+              value={password}
+            />
+            {passwordError ? (
+              <Text style={{color: 'red'}}>{passwordError}</Text>
+            ) : null}
 
-              <Input
-                placeholder="Enter password"
-                leftIcon={<Icon name="lock" size={24} color={'grey'} />}
-                label="Password"
-                borderColor="black"
-                onChangeText={handleChange('password')}
-                secure={true}
-                value={password}
-              />
-              {passwordError ? (
-                <Text style={{color: 'red'}}>{passwordError}</Text>
-              ) : null}
-
-              <TouchableOpacity onPress={() => handleSubmit()}>
-                <View style={styles.loginButton}>
-                  <Text style={styles.buttonText}>Login</Text>
-                </View>
-              </TouchableOpacity>
-
-            </View>
-          )}
-        </Formik>
+            <TouchableOpacity onPress={() => handleSubmit()}>
+              <View style={styles.loginButton}>
+                <Text style={styles.buttonText}>Login</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        )}
+      </Formik>
 
       {!keyBoardShowing ? (
         <TouchableOpacity
           style={styles.pab10}
           onPress={() => {
-            navigation.navigate('signupScreen');
+            navigation.navigate('SignupScreen');
           }}>
           <View style={styles.registerButton}>
             <Text style={[styles.buttonText, {color: '#0096FF'}]}>

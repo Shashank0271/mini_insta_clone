@@ -1,47 +1,32 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {NavigationContainer} from '@react-navigation/native';
+
 import LoginScreen from '../LoginScreen/LoginScreen';
-import {supabase} from '../../config/supabase_config';
 import {Session} from '@supabase/supabase-js';
 import SignupScreen from '../SignupScreen/SignupScreen';
-import HomeScreen from '../HomeScreen/HomeScreen';
 import TabScreen from './TabScreen';
-import NavigationStrings from './NavigationStrings';
+import ChatScreen from '../ChatScreen/ChatScreen';
+import {RootStackNavigatorParamList} from '../../type';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackNavigatorParamList>();
 
-const StackScreen = () => {
-  const [session, setSession] = useState<Session | null>();
+interface StackScreenProps {
+  session: Session | null | undefined;
+}
 
-  useEffect(() => {
-    supabase.auth.getSession().then(({data: {session}}) => {
-      setSession(session);
-    });
-    supabase.auth.onAuthStateChange((_event, session) => {
-      console.log('Auth state changed');
-      setSession(session);
-    });
-  }, []);
-
+const StackScreen = ({session}: StackScreenProps) => {
   return (
     <Stack.Navigator>
       {session ? (
         <Stack.Group screenOptions={{headerShown: false}}>
-          <Stack.Screen
-            name={NavigationStrings.TabScreen}
-            component={TabScreen}
-          />
+          <Stack.Screen name="TabScreen" component={TabScreen} />
+          <Stack.Screen name="ChatScreen" component={ChatScreen} />
         </Stack.Group>
       ) : (
         <Stack.Group screenOptions={{headerShown: false}}>
-          <Stack.Screen
-            name={NavigationStrings.LoginScreen}
-            component={LoginScreen}
-          />
-          <Stack.Screen
-            name={NavigationStrings.SignupScreen}
-            component={SignupScreen}
-          />
+          <Stack.Screen name="LoginScreen" component={LoginScreen} />
+          <Stack.Screen name="SignupScreen" component={SignupScreen} />
         </Stack.Group>
       )}
     </Stack.Navigator>

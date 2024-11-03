@@ -9,7 +9,7 @@ import {
   Platform,
   StatusBar,
 } from 'react-native';
-import React from 'react';
+import React, {FC} from 'react';
 import Input from '../../components/Input';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Formik} from 'formik';
@@ -46,7 +46,7 @@ const SignupValidationSchema = yup.object({
   // .minSymbols(1, passwordErrorMessage),
 });
 
-const Signup = () => {
+const Signup: FC = () => {
   const keyboardVerticalOffset =
     useHeaderHeight() + (StatusBar.currentHeight ?? 0);
   return (
@@ -67,7 +67,7 @@ const Signup = () => {
               initialValues={{username: '', name: '', email: '', password: ''}}
               onSubmit={async ({email, name, password, username}) => {
                 //signup logic
-                
+
                 //1.signup with supabase
                 const {
                   data: {user, session},
@@ -79,7 +79,6 @@ const Signup = () => {
                 } else {
                   //2.Create the user in DB
                   const {id, email} = user as User;
-                  
                 }
               }}>
               {({
