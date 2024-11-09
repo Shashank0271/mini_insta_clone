@@ -1,10 +1,4 @@
-import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-  Keyboard,
-} from 'react-native';
+import {StyleSheet, View, Text, TouchableOpacity, Keyboard} from 'react-native';
 import React, {FC, useEffect, useState} from 'react';
 import {supabase} from '../../config/supabase_config';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -16,6 +10,7 @@ import {User} from '@supabase/supabase-js';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {RootStackNavigationProp} from '../../type';
+import Snackbar from 'react-native-snackbar';
 
 YupPassword(yup);
 
@@ -63,11 +58,10 @@ const LoginScreen: FC = () => {
           } = await supabase.auth.signInWithPassword({email, password});
 
           if (error) {
-            console.log(error.message);
-            //TODO : show a snackbar displaying the error message
-          } else {
-            const {id: supabaseId, email} = user as User;
-            //TODO : fetch the user from the database using supabaseId and update the state
+            Snackbar.show({
+              text: error.message,
+              duration: Snackbar.LENGTH_SHORT,
+            });
           }
         }}
         validationSchema={LoginValidationSchema}>

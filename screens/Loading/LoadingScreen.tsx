@@ -1,8 +1,8 @@
 import {StyleSheet, View} from 'react-native';
-import React from 'react';
+import React, {FC} from 'react';
 import LoaderKit from 'react-native-loader-kit';
 
-const LoadingScreen = () => {
+const LoadingScreen: FC = () => {
   return (
     <View style={styles.screen}>
       <LoaderKit

@@ -8,6 +8,7 @@ type RootStackNavigatorParamList = {
   HomeScreen: undefined;
   AddPostScreen: undefined;
   ProfileScreen: undefined;
+  LoadingScreen: undefined;
 };
 
 type RootStackNavigationProp = NavigationProp<RootStackNavigatorParamList>;

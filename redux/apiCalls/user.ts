@@ -6,6 +6,7 @@ import {AppUser} from '../reducers/user';
 export const fetchUserBySID = createAsyncThunk(
   'fetchUserFromDb',
   async (supabaseId: string): Promise<AppUser> => {
-    return (await axios.get(`${API_BASEURL}user/${supabaseId}`)).data;
+    const response = await axios.get(`${API_BASEURL}user/${supabaseId}`);
+    return response.data;
   },
 );

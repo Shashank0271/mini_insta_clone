@@ -3,6 +3,7 @@ import {
   createSlice,
   PayloadAction,
 } from '@reduxjs/toolkit';
+import {Session} from '@supabase/supabase-js';
 import {fetchUserBySID} from '../apiCalls/user';
 
 export interface AppUser {
@@ -25,13 +26,14 @@ enum AccountType {
 }
 
 export interface UserState {
-  user: AppUser;
+  appUser: AppUser;
   isLoadingUser: boolean;
   failedToLoadUser: boolean;
+  session: Session | null | undefined;
 }
 
 const initialState: UserState = {
-  user: {
+  appUser: {
     userId: '',
     supabaseId: '',
     name: '',
@@ -46,12 +48,17 @@ const initialState: UserState = {
   },
   isLoadingUser: false,
   failedToLoadUser: false,
+  session: undefined,
 };
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    setSession: (state: UserState, action: PayloadAction<Session | null>) => {
+      state.session = action.payload;
+    },
+  },
   extraReducers: (builder: ActionReducerMapBuilder<UserState>) => {
     builder.addCase(fetchUserBySID.pending, state => {
       state.isLoadingUser = true;
@@ -66,10 +73,11 @@ const userSlice = createSlice({
       (state, action: PayloadAction<AppUser>) => {
         state.isLoadingUser = false;
         state.failedToLoadUser = false;
-        state.user = action.payload;
+        state.appUser = action.payload;
       },
     );
   },
 });
 
+export const {setSession} = userSlice.actions;
 export default userSlice.reducer;
