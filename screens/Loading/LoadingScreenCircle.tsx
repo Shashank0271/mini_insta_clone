@@ -1,0 +1,30 @@
+import {StyleSheet, View} from 'react-native';
+import React, {FC} from 'react';
+import LoaderKit from 'react-native-loader-kit';
+
+const LoadingScreenCircle: FC = () => {
+  return (
+    <View style={styles.screen}>
+      <LoaderKit
+        style={styles.loadingIcon}
+        name={'LineSpinFadeLoader'} // Optional: see list of animations below
+        color={'white'} // Optional: color can be: 'red', 'green',... or '#ddd', '#ffffff',...
+      />
+    </View>
+  );
+};
+
+export default LoadingScreenCircle;
+
+const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'black',
+  },
+  loadingIcon: {
+    width: 50,
+    height: 50,
+  },
+});

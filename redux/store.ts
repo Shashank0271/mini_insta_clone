@@ -1,7 +1,11 @@
 import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import userReducer from './reducers/user';
+import followReducer from './reducers/follow';
 
-const rootReducer = combineReducers({user: userReducer});
+const rootReducer = combineReducers({
+  user: userReducer,
+  follow: followReducer,
+});
 
 export const store = configureStore({
   reducer: rootReducer,

@@ -8,6 +8,9 @@ import {
 import React, {FC} from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {fontFamily} from '../../../constants/fonts';
+import {useSelector} from 'react-redux';
+import {UserState} from '../../../redux/reducers/user';
+import {AppState} from '../../../redux/store';
 
 //  TODO : remove optional
 
@@ -17,14 +20,15 @@ interface ProfileCircleProps {
 }
 
 const ProfileCircle: FC<ProfileCircleProps> = ({
-  imageUrl = 'https://picsum.photos/200',
   name = 'displayname',
 }: ProfileCircleProps) => {
+  const {appUser} = useSelector((state: AppState): UserState => state.user);
+  const {profilePicUrl} = appUser;
   return (
     <View>
       <ImageBackground
         borderRadius={100}
-        source={{uri: imageUrl}}
+        source={{uri: profilePicUrl}}
         resizeMode="cover"
         style={{width: 70, height: 70}}>
         <TouchableOpacity style={styles.iconContainer}>

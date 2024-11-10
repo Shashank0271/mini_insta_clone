@@ -46,7 +46,7 @@ const initialState: UserState = {
     following: 0,
     posts: 0,
   },
-  isLoadingUser: false,
+  isLoadingUser: true,
   failedToLoadUser: false,
   session: undefined,
 };
