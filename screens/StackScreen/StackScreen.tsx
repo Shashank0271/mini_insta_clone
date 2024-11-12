@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useDispatch, useSelector} from 'react-redux';
-import {setSession} from '../../redux/reducers/user';
+import {setSession} from '../../redux/reducers/appUser';
 import {AppDispatch, AppState} from '../../redux/store';
 import {supabase} from '../../config/supabase_config';
 import LoginScreen from '../LoginScreen/LoginScreen';
@@ -19,7 +19,6 @@ const StackScreen = () => {
       dispatch(setSession(session));
     });
     supabase.auth.onAuthStateChange((_event, session) => {
-      console.log(`auth session : ${session}`);
       dispatch(setSession(session));
     });
   }, []);

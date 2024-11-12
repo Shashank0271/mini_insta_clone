@@ -1,15 +1,7 @@
-import {
-  ActionReducerMapBuilder,
-  createSlice,
-} from '@reduxjs/toolkit';
+import {ActionReducerMapBuilder, createSlice} from '@reduxjs/toolkit';
 import {fetchAllFollowing} from '../apiCalls/follow';
+import { FollowUser } from '../../types/FollowUser';
 
-export interface FollowUser {
-  name: string;
-  id: string;
-  profilePicUrl: string;
-  followId: string;
-}
 
 export interface FollowState {
   followers: Array<FollowUser>;
@@ -40,7 +32,7 @@ const followSlice = createSlice({
     });
     builder.addCase(fetchAllFollowing.fulfilled, (state, action) => {
       state.isLoadingFollowingData = false;
-      state.followers = action.payload;
+      state.following = action.payload;
     });
   },
 });

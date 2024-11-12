@@ -2,16 +2,17 @@ import {StyleSheet, View} from 'react-native';
 import React, {FC, useEffect} from 'react';
 import ProfileCircle from './components/ProfileCircle';
 import {useDispatch, useSelector} from 'react-redux';
-import {UserState} from '../../redux/reducers/user';
+import {UserState} from '../../redux/reducers/appUser';
 import {AppDispatch, AppState} from '../../redux/store';
-import LoadingScreen from '../Loading/LoadingScreen';
 import {fetchUserBySID} from '../../redux/apiCalls/user';
 import {fetchAllFollowing} from '../../redux/apiCalls/follow';
+
 import LoadingScreenCircle from '../Loading/LoadingScreenCircle';
+import { FollowUser } from '../../types/FollowUser';
 
 const HomeScreen: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const {isLoadingUser, session, appUser, failedToLoadUser} = useSelector(
+  const {session, appUser, failedToLoadUser} = useSelector(
     (state: AppState): UserState => state.user,
   );
   const {following, error, isLoadingFollowingData} = useSelector(
@@ -28,11 +29,24 @@ const HomeScreen: FC = () => {
     loadHomeScreenData();
   }, [session]);
 
-  return isLoadingFollowingData || isLoadingUser ? (
-    <LoadingScreen />
+  return isLoadingFollowingData ? (
+    <LoadingScreenCircle />
   ) : (
     <View style={styles.screen}>
-      <ProfileCircle />
+      <View style={{flexDirection: 'row', gap: 16, marginLeft: 10}}>
+        <ProfileCircle
+          imageUrl={appUser.profilePicUrl}
+          name="Your story"
+          showAddIcon
+        />
+        {following.map((followingUser: FollowUser) => (
+          <ProfileCircle
+            key={followingUser.id}
+            imageUrl={followingUser.profilePicUrl}
+            name={followingUser.name}
+          />
+        ))}
+      </View>
     </View>
   );
 };

@@ -9,31 +9,34 @@ import React, {FC} from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {fontFamily} from '../../../constants/fonts';
 import {useSelector} from 'react-redux';
-import {UserState} from '../../../redux/reducers/user';
+import {UserState} from '../../../redux/reducers/appUser';
 import {AppState} from '../../../redux/store';
 
 //  TODO : remove optional
 
 interface ProfileCircleProps {
-  imageUrl?: string;
-  name?: string;
+  imageUrl: string;
+  name: string;
+  showAddIcon?: boolean;
 }
 
 const ProfileCircle: FC<ProfileCircleProps> = ({
-  name = 'displayname',
+  showAddIcon = false,
+  name,
+  imageUrl,
 }: ProfileCircleProps) => {
-  const {appUser} = useSelector((state: AppState): UserState => state.user);
-  const {profilePicUrl} = appUser;
   return (
     <View>
       <ImageBackground
         borderRadius={100}
-        source={{uri: profilePicUrl}}
+        source={{uri: imageUrl}}
         resizeMode="cover"
-        style={{width: 70, height: 70}}>
-        <TouchableOpacity style={styles.iconContainer}>
-          <Icon name="pluscircle" size={26} color={'#3893f5'} />
-        </TouchableOpacity>
+        style={{width: 70, height: 70, marginBottom: 8}}>
+        {showAddIcon && (
+          <TouchableOpacity style={styles.iconContainer}>
+            <Icon name="pluscircle" size={26} color={'#3893f5'} />
+          </TouchableOpacity>
+        )}
       </ImageBackground>
       <Text style={styles.nameText}>{name}</Text>
     </View>

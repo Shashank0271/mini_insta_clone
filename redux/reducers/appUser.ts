@@ -5,25 +5,8 @@ import {
 } from '@reduxjs/toolkit';
 import {Session} from '@supabase/supabase-js';
 import {fetchUserBySID} from '../apiCalls/user';
+import { AccountType, AppUser } from '../../types/User';
 
-export interface AppUser {
-  userId: string;
-  supabaseId: string;
-  name: string;
-  uname: string;
-  accountType: AccountType;
-  email: string;
-  bio: string;
-  profilePicUrl: string;
-  followers: number;
-  following: number;
-  posts: number;
-}
-
-enum AccountType {
-  PUBLIC,
-  PRIVATE,
-}
 
 export interface UserState {
   appUser: AppUser;
