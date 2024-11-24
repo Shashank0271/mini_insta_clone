@@ -1,19 +1,20 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useDispatch, useSelector} from 'react-redux';
-import {setSession} from '../../redux/reducers/appUser';
+import {setSession, setSupabaseId} from '../../redux/reducers/appUser';
 import {AppDispatch, AppState} from '../../redux/store';
 import {supabase} from '../../config/supabase_config';
 import LoginScreen from '../LoginScreen/LoginScreen';
 import SignupScreen from '../SignupScreen/SignupScreen';
 import TabScreen from './TabScreen';
 import ChatScreen from '../ChatScreen/ChatScreen';
+import {Session} from '@supabase/supabase-js';
 
 const Stack = createNativeStackNavigator();
 
 const StackScreen = () => {
   const dispatch = useDispatch<AppDispatch>();
-
+  // const [session, setSession] = useState<Session | undefined | null>(undefined);
   useEffect(() => {
     supabase.auth.getSession().then(({data: {session}}) => {
       dispatch(setSession(session));
@@ -24,7 +25,6 @@ const StackScreen = () => {
   }, []);
 
   const {session} = useSelector((state: AppState) => state.user);
-
   return (
     <Stack.Navigator>
       {session === null ? (

@@ -4,8 +4,34 @@ import {API_BASEURL} from '../../constants/constants';
 
 export const fetchFeed = createAsyncThunk(
   'fetchFeed',
-  async (userId: string) => {
-    const response = await axios.get(`${API_BASEURL}post/feed/${userId}`);
-    return response.data.data;
+  async (userId: string, {rejectWithValue}) => {
+    try {
+      const response = await axios.get(`${API_BASEURL}post/feed/${userId}`);
+      return response.data.data;
+    } catch (e) {
+      if (axios.isAxiosError(e)) {
+        const apiError = e.response?.data.apiError;
+        return rejectWithValue(
+          `failed to fetch feed with code : ${e.status} , message : ${apiError.message}`,
+        );
+      }
+    }
+  },
+);
+
+export const fetchUserPosts = createAsyncThunk(
+  'fetchUserPosts',
+  async (userId: string, {rejectWithValue}) => {
+    try {
+      const response = await axios.get(`${API_BASEURL}post/user/${userId}`);
+      return response.data.data;
+    } catch (e) {
+      if (axios.isAxiosError(e)) {
+        const apiError = e.response?.data.apiError;
+        return rejectWithValue(
+          `fetch to fetch user posts with code : ${e.status} , message:  ${apiError.message}`,
+        );
+      }
+    }
   },
 );

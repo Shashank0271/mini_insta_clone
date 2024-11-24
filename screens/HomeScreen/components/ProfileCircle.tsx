@@ -8,22 +8,19 @@ import {
 import React, {FC} from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {fontFamily} from '../../../constants/fonts';
-import {useSelector} from 'react-redux';
-import {UserState} from '../../../redux/reducers/appUser';
-import {AppState} from '../../../redux/store';
-
-//  TODO : remove optional
 
 interface ProfileCircleProps {
   imageUrl: string;
   name: string;
   showAddIcon?: boolean;
+  size?: number;
 }
 
 const ProfileCircle: FC<ProfileCircleProps> = ({
   showAddIcon = false,
   name,
   imageUrl,
+  size = 70,
 }: ProfileCircleProps) => {
   return (
     <View>
@@ -31,7 +28,7 @@ const ProfileCircle: FC<ProfileCircleProps> = ({
         borderRadius={100}
         source={{uri: imageUrl}}
         resizeMode="cover"
-        style={{width: 70, height: 70, marginBottom: 8}}>
+        style={{width: size, height: size, marginBottom: 8}}>
         {showAddIcon && (
           <TouchableOpacity style={styles.iconContainer}>
             <Icon name="pluscircle" size={26} color={'#3893f5'} />
