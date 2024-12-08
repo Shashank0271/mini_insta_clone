@@ -2,7 +2,6 @@ import {ActionReducerMapBuilder, createSlice} from '@reduxjs/toolkit';
 import {fetchAllFollowing} from '../apiCalls/follow';
 import { FollowUser } from '../../types/FollowUser';
 
-
 export interface FollowState {
   followers: Array<FollowUser>;
   following: Array<FollowUser>;

@@ -7,14 +7,14 @@ import {
   NativeSyntheticEvent,
   TouchableOpacity,
 } from 'react-native';
-import React, {FC} from 'react';
+import React, {FC, useState} from 'react';
 import {BlurView} from '@react-native-community/blur';
 import {fontFamily} from '../../../constants/fonts';
 import {
   widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {supabase} from '../../../config/supabase_config';
+import LoaderKit from 'react-native-loader-kit';
 
 interface LogoutAlertDialogProps {
   visible: boolean;
@@ -25,31 +25,45 @@ const LogoutAlertDialog: FC<LogoutAlertDialogProps> = ({
   visible,
   onRequestClose,
 }) => {
-    
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
   const logOut = async (): Promise<void> => {
-    supabase.auth.signOut();
+    setIsLoggingOut(true);
+    await supabase.auth.signOut();
+    setIsLoggingOut(false);
   };
 
   return (
     <Modal onRequestClose={onRequestClose} visible={visible} transparent>
       <BlurView blurAmount={1} style={{flex: 1}}>
-        <Pressable style={styles.parentModal}>
-          <View style={styles.logoutContainer}>
-            <View style={styles.modalHeader}>
-              <Text style={styles.modalHeaderText}>Log out of</Text>
-              <Text style={styles.modalHeaderText}>your account?</Text>
+        <Pressable style={styles.parentModal} onPress={onRequestClose}>
+          {isLoggingOut ? (
+            <View style={[styles.logoutContainer, {height: 200}]}>
+              <Text style={styles.modalButtonText}>Logging out ...</Text>
+              <LoaderKit
+                style={{width: 30, height: 30, marginTop: 20}}
+                name={'BallPulseSync'}
+                color={'white'}
+              />
             </View>
-            <HorizontalDivider />
-            <TouchableOpacity onPress={logOut} style={styles.button}>
-              <Text style={[styles.modalButtonText, {color: 'red'}]}>
-                Logout
-              </Text>
-            </TouchableOpacity>
-            <HorizontalDivider />
-            <TouchableOpacity onPress={onRequestClose} style={styles.button}>
-              <Text style={styles.modalButtonText}>Cancel</Text>
-            </TouchableOpacity>
-          </View>
+          ) : (
+            <View style={styles.logoutContainer}>
+              <View style={styles.modalHeader}>
+                <Text style={styles.modalHeaderText}>Log out of</Text>
+                <Text style={styles.modalHeaderText}>your account?</Text>
+              </View>
+              <HorizontalDivider />
+              <TouchableOpacity onPress={logOut} style={styles.button}>
+                <Text style={[styles.modalButtonText, {color: 'red'}]}>
+                  Logout
+                </Text>
+              </TouchableOpacity>
+              <HorizontalDivider />
+              <TouchableOpacity onPress={onRequestClose} style={styles.button}>
+                <Text style={styles.modalButtonText}>Cancel</Text>
+              </TouchableOpacity>
+            </View>
+          )}
         </Pressable>
       </BlurView>
     </Modal>

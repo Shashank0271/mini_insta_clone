@@ -7,7 +7,7 @@ import {AppDispatch, AppState} from '../../redux/store';
 import ProfileCircle from '../HomeScreen/components/ProfileCircle';
 import {fontFamily} from '../../constants/fonts';
 import ProfileParamView from './components/ProfileParamView';
-import EditProfileButton from './components/EditProfileButton';
+import CustomButton from '../../components/CustomButton';
 import {fetchUserPosts} from '../../redux/apiCalls/posts';
 import LoaderKit from 'react-native-loader-kit';
 import {Image} from '@rneui/themed';
@@ -62,13 +62,13 @@ const Profile: FC = () => {
           </View>
         </View>
 
-        <EditProfileButton />
+        <CustomButton label="Edit profile" onPress={() => {}} />
 
         <LogoutAlertDialog
           visible={showLogoutAlertDialog}
           onRequestClose={() => setShowLogoutAlertDialog(false)}
         />
-        
+
         {isLoadingUserPosts ? (
           <View style={styles.loadingView}>
             <LoaderKit name={'LineSpinFadeLoader'} color="white" />

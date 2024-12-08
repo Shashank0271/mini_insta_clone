@@ -74,13 +74,11 @@ const LoginScreen: FC = () => {
           <View style={{gap: 5, width: '100%'}}>
             <Input
               placeholder="Enter email"
-              borderColor="black"
               leftIcon={<Icon name="envelope" size={18} color={'grey'} />}
               label="Email"
               keyboardType="email-address"
               onChangeText={handleChange('email')}
               value={email}
-              secure={false}
             />
             {emailError ? (
               <Text style={{color: 'red'}}>{emailError}</Text>
@@ -90,7 +88,6 @@ const LoginScreen: FC = () => {
               placeholder="Enter password"
               leftIcon={<Icon name="lock" size={24} color={'grey'} />}
               label="Password"
-              borderColor="black"
               onChangeText={handleChange('password')}
               secure={true}
               value={password}

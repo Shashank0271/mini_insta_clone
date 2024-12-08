@@ -69,7 +69,7 @@ const PostSection: FC<PostSectionProps> = ({item}) => {
               color={liked ? 'red' : 'white'}
             />
             <Text style={styles.imageDataText}>{item.likes}</Text>
-          </View>
+          </View>  
 
           <View style={styles.postMetadataBlock}>
             <Icon

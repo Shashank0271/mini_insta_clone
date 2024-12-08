@@ -23,7 +23,9 @@ export const fetchUserPosts = createAsyncThunk(
   'fetchUserPosts',
   async (userId: string, {rejectWithValue}) => {
     try {
-      const response = await axios.get(`${API_BASEURL}post/user/${userId}`);
+      const response = await axios.get(
+        `${API_BASEURL}post/user/${userId}/getAllPosts`,
+      );
       return response.data.data;
     } catch (e) {
       if (axios.isAxiosError(e)) {

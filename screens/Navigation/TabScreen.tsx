@@ -1,4 +1,3 @@
-import {Button, StyleSheet} from 'react-native';
 import React, {FC} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeScreen from '../HomeScreen/HomeScreen';
@@ -32,6 +31,7 @@ const TabScreen: FC = () => {
         },
         tabBarShowLabel: false,
         tabBarStyle: {backgroundColor: '#000'},
+        tabBarHideOnKeyboard: true,
       })}>
       <Tab.Screen
         name="HomeScreen"
@@ -56,4 +56,3 @@ const TabScreen: FC = () => {
   );
 };
 export default TabScreen;
-const styles = StyleSheet.create({});
