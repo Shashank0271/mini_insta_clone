@@ -6,7 +6,7 @@ export const fetchFeed = createAsyncThunk(
   'fetchFeed',
   async (userId: string, {rejectWithValue}) => {
     try {
-      const response = await axios.get(`${API_BASEURL}post/feed/${userId}`);
+      const response = await axios.get(`${API_BASEURL}posts/feed/${userId}`);
       return response.data.data;
     } catch (e) {
       if (axios.isAxiosError(e)) {
@@ -24,7 +24,7 @@ export const fetchUserPosts = createAsyncThunk(
   async (userId: string, {rejectWithValue}) => {
     try {
       const response = await axios.get(
-        `${API_BASEURL}post/user/${userId}/getAllPosts`,
+        `${API_BASEURL}posts/user/${userId}/all-posts`,
       );
       return response.data.data;
     } catch (e) {

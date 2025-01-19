@@ -41,27 +41,9 @@ const KeyboardAvoidingContainer = ({
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: backgroundColor}}>
-      {/* <KeyboardAvoidingView
-        style={{flex: 1, backgroundColor: 'red'}}
-        keyboardVerticalOffset={40}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}> */}
-      <ScrollView
-        contentContainerStyle={styles.contentContainer}
-        style={{
-          // flex: 1,
-          // transform: [{translateY: animatedValue}],
-        }}>
-        {children}
-      </ScrollView>
-      {/* </KeyboardAvoidingView> */}
+      <ScrollView>{children}</ScrollView>
     </SafeAreaView>
   );
 };
 
 export default KeyboardAvoidingContainer;
-
-const styles = StyleSheet.create({
-  contentContainer: {
-    // paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-  },
-});

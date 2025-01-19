@@ -3,6 +3,7 @@ import {
   Text,
   TextInput,
   TextInputProps,
+  TextStyle,
   View,
   ViewStyle,
 } from 'react-native';
@@ -15,7 +16,9 @@ interface InputProps extends TextInputProps {
   secure?: boolean;
   label?: string;
   leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
   inputContainerStyle?: ViewStyle;
+  style?: TextStyle;
   onChangeText: (e: string) => void;
 }
 
@@ -24,7 +27,9 @@ export default function Input({
   secure = false,
   label,
   leftIcon,
+  rightIcon,
   inputContainerStyle,
+  style,
   onChangeText,
   ...props
 }: InputProps) {
@@ -45,6 +50,7 @@ export default function Input({
       ) : null}
       <View style={[styles.inputContainer, inputContainerStyle]}>
         {leftIcon ? <View style={{marginRight: 5}}>{leftIcon}</View> : null}
+
         <TextInput
           secureTextEntry={secureText}
           underlineColorAndroid={underlineColorAndroid}
@@ -62,13 +68,17 @@ export default function Input({
             }
           }}
           placeholderTextColor={'grey'}
-          style={{
-            flex: 1,
-            fontSize: 18,
-            color: '#333',
-          }}
+          style={[
+            {
+              flex: 1,
+              fontSize: 18,
+              color: '#333',
+            },
+            style,
+          ]}
           {...props}
         />
+
         {!showEye ? null : secureText === true ? (
           <Icon
             name="eye-slash"
@@ -84,6 +94,8 @@ export default function Input({
             onPress={() => setSecureText(true)}
           />
         ) : null}
+
+        {rightIcon && <View style={{marginLeft: 5}}>{rightIcon}</View>}
       </View>
     </>
   );

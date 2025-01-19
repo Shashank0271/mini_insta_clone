@@ -6,7 +6,6 @@ import Input from '../../components/Input';
 import * as yup from 'yup';
 import YupPassword from 'yup-password';
 import {Formik} from 'formik';
-import {User} from '@supabase/supabase-js';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {RootStackNavigationProp} from '../../type';

@@ -9,6 +9,7 @@ type RootStackNavigatorParamList = {
   AddPostScreen: undefined;
   ProfileScreen: undefined;
   LoadingScreen: undefined;
+  MessageScreen: {chatId: string; recipientId: string};
 };
 
 type RootStackNavigationProp = NavigationProp<RootStackNavigatorParamList>;
