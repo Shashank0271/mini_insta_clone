@@ -13,7 +13,7 @@ const Tab = createBottomTabNavigator<RootStackNavigatorParamList>();
 const TabScreen: FC = () => {
   return (
     <Tab.Navigator
-      initialRouteName="HomeScreen" // NEEDS TO BE HomeScreen
+      initialRouteName="HomeScreen" 
       screenOptions={({route: {name: routeName}}) => ({
         tabBarIcon: ({focused}) => {
           let iconName: string = '';

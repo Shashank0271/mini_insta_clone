@@ -7,7 +7,7 @@ import LoadingScreenCircle from '../Loading/LoadingScreenCircle';
 import {FlatList} from 'react-native-gesture-handler';
 import {fontFamily} from '../../constants/fonts';
 import {useNavigation} from '@react-navigation/native';
-import {RootStackNavigationProp, RootStackNavigatorParamList} from '../../type';
+import {RootStackNavigationProp} from '../../type';
 import {ChatUser} from '../../types/ChatUser';
 
 const ChatScreen: FC = () => {

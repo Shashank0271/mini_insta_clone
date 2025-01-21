@@ -1,4 +1,11 @@
-import {StyleSheet, Text, View, FlatList} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
 import React, {FC, useEffect, useState} from 'react';
 import LogoutAlertDialog from './components/LogoutAlertDialog';
 import ProfileScreenHeader from './components/ProfileScreenHeader';
@@ -10,10 +17,12 @@ import ProfileParamView from './components/ProfileParamView';
 import CustomButton from '../../components/CustomButton';
 import {fetchUserPosts} from '../../redux/apiCalls/posts';
 import LoaderKit from 'react-native-loader-kit';
-import {Image} from '@rneui/themed';
+import {useNavigation} from '@react-navigation/native';
+import {RootStackNavigationProp} from '../../type';
 
 const Profile: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const navigation = useNavigation<RootStackNavigationProp>();
   const [showLogoutAlertDialog, setShowLogoutAlertDialog] =
     useState<boolean>(false);
   const {appUser} = useSelector((state: AppState) => state.user);
@@ -24,7 +33,10 @@ const Profile: FC = () => {
     dispatch(fetchUserPosts(appUser.userId));
   }, []);
 
-  const formatData = (dataP: Array<any>, numCols: number): Array<any> => {
+  const formatPostsGridData = (
+    dataP: Array<any>,
+    numCols: number,
+  ): Array<any> => {
     const data = [...dataP];
     const lastRowItems = data.length % numCols;
     if (lastRowItems === 0) {
@@ -56,8 +68,11 @@ const Profile: FC = () => {
           </View>
 
           <View style={styles.profileParamRow}>
-            <ProfileParamView label="posts" value={appUser.posts} />
-            <ProfileParamView label="followers" value={appUser.followers} />
+            <ProfileParamView label="postrs" value={appUser.posts} />
+            <TouchableOpacity
+              onPress={() => navigation.navigate('ConnectionsScreenTabs')}>
+              <ProfileParamView label="followers" value={appUser.followers} />
+            </TouchableOpacity>
             <ProfileParamView label="following" value={appUser.following} />
           </View>
         </View>
@@ -75,7 +90,7 @@ const Profile: FC = () => {
           </View>
         ) : (
           <FlatList
-            data={formatData(userPosts, 3)}
+            data={formatPostsGridData(userPosts, 3)}
             keyExtractor={item => item.id}
             numColumns={3}
             renderItem={({item}) => {

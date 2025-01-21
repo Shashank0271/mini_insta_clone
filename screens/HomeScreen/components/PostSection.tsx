@@ -52,6 +52,7 @@ const PostSection: FC<PostSectionProps> = ({item}) => {
             alignItems: 'center',
           }}>
           <AnimatedIcon
+          
             name="heart"
             size={64}
             color={'#FFF'}

@@ -9,6 +9,7 @@ import SignupScreen from '../SignupScreen/SignupScreen';
 import TabScreen from './TabScreen';
 import ChatScreen from '../ChatScreen/ChatScreen';
 import MessageScreen from '../MessageScreen/MessageScreen';
+import ConnectionsScreenTabs from '../ConnectionsScreen/ConnectionsScreenTabs';
 
 const Stack = createNativeStackNavigator();
 
@@ -37,6 +38,10 @@ const StackScreen = () => {
           <Stack.Screen name="TabScreen" component={TabScreen} />
           <Stack.Screen name="ChatScreen" component={ChatScreen} />
           <Stack.Screen name="MessageScreen" component={MessageScreen} />
+          <Stack.Screen
+            name="ConnectionsScreenTabs"
+            component={ConnectionsScreenTabs}
+          />
         </Stack.Group>
       )}
     </Stack.Navigator>

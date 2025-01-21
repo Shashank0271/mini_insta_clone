@@ -56,14 +56,43 @@ const AddPost: React.FC = () => {
     }
   };
 
-  const uploadPostToStorage = async (imageUrls: string[], caption: string) => {
+  const handleUpload = async () => {
+    if (!asset) {
+      ToastAndroid.show('please add an image !', ToastAndroid.SHORT);
+      return;
+    }
     setIsUploadingPost(true);
+
+    const fileName = `public/${userId}/${Date.now()}.jpg`;
+    const response = await fetch(asset?.uri!);
+    const blob = await response.blob();
+    const arrayBuffer = await new Response(blob).arrayBuffer();
+
+    const {data, error} = await supabase.storage
+      .from(POST_IMAGES_BUCKET)
+      .upload(fileName, arrayBuffer, {contentType: 'image/jpeg'});
+
+    if (error) {
+      ToastAndroid.show(
+        'some error occurred , please try again !',
+        ToastAndroid.SHORT,
+      );
+      setIsUploadingPost(false);
+      return;
+    }
+
+    const {
+      data: {publicUrl},
+    } = supabase.storage.from(POST_IMAGES_BUCKET).getPublicUrl(data!.path);
+
     await axios.post(`${API_BASEURL}posts`, {
-      imageUrls,
+      imageUrls: [publicUrl],
       caption,
       userId,
     });
+
     setIsUploadingPost(false);
+
     navigation.navigate('ProfileScreen');
   };
 
@@ -116,36 +145,7 @@ const AddPost: React.FC = () => {
         />
         <CustomButton
           label="Add Post"
-          onPress={async () => {
-            if (!asset) {
-              ToastAndroid.show('please add an image !', ToastAndroid.SHORT);
-              return;
-            }
-
-            const fileName = `public/${userId}/${Date.now()}.jpg`;
-            const response = await fetch(asset?.uri!);
-            const blob = await response.blob();
-            const arrayBuffer = await new Response(blob).arrayBuffer();
-
-            const {data, error} = await supabase.storage
-              .from(POST_IMAGES_BUCKET)
-              .upload(fileName, arrayBuffer, {contentType: 'image/jpeg'});
-
-            if (error) {
-              ToastAndroid.show(
-                'some error occurred , please try again !',
-                ToastAndroid.SHORT,
-              );
-              return;
-            }
-            const {
-              data: {publicUrl},
-            } = supabase.storage
-              .from(POST_IMAGES_BUCKET)
-              .getPublicUrl(data!.path);
-
-            uploadPostToStorage([publicUrl], caption);
-          }}
+          onPress={handleUpload}
           iconPosition="right"
           wrapperProps={{marginTop: 32}}
           icon={<EntypoIcon name="arrow-bold-right" size={22} color={'#FFF'} />}
