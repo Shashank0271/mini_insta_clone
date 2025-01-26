@@ -21,15 +21,6 @@ const ChatScreen: FC = () => {
     dispatch(fetchChatFeed());
   }, []);
 
-  const formChatId = (otherUser: ChatUser) => {
-    const currentUserId = userId;
-    const otherUserId = otherUser.userId;
-    if (currentUserId < otherUserId) {
-      return currentUserId + otherUserId;
-    }
-    return otherUserId + currentUserId;
-  };
-
   return isLoadingFeed ? (
     <LoadingScreenCircle />
   ) : (
@@ -42,7 +33,6 @@ const ChatScreen: FC = () => {
             <TouchableOpacity
               onPress={() =>
                 navigation.navigate('MessageScreen', {
-                  chatId: formChatId(item),
                   recipientId: item.userId,
                 })
               }

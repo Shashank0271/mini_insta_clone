@@ -97,7 +97,6 @@ const Signup: FC = () => {
                   }}>
                   <Input
                     placeholder="Enter name"
-                    borderColor="black"
                     label="Name"
                     keyboardType="email-address"
                     onChangeText={handleChange('name')}
@@ -110,7 +109,6 @@ const Signup: FC = () => {
 
                   <Input
                     placeholder="Enter username"
-                    borderColor="black"
                     label="Username"
                     keyboardType="email-address"
                     onChangeText={handleChange('username')}
@@ -123,7 +121,6 @@ const Signup: FC = () => {
 
                   <Input
                     placeholder="Enter email"
-                    borderColor="black"
                     label="Email"
                     keyboardType="email-address"
                     onChangeText={handleChange('email')}
@@ -136,7 +133,6 @@ const Signup: FC = () => {
 
                   <Input
                     placeholder="Enter password"
-                    borderColor="black"
                     leftIcon={<Icon name="lock" size={18} color={'grey'} />}
                     label="Password"
                     keyboardType="default"

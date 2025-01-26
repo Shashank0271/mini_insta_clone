@@ -2,8 +2,8 @@ import {StyleSheet, Text, View} from 'react-native';
 import React, {FC} from 'react';
 import {fontFamily} from '../../../constants/fonts';
 import Icon from 'react-native-vector-icons/AntDesign';
-import { useNavigation } from '@react-navigation/native';
-import { RootStackNavigationProp } from '../../../type';
+import {useNavigation} from '@react-navigation/native';
+import {RootStackNavigationProp} from '../../../type';
 
 const HomeScreenHeader: FC = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
@@ -11,7 +11,12 @@ const HomeScreenHeader: FC = () => {
     <View style={styles.headerContainer}>
       <Text style={styles.instagramText}>Instagram</Text>
       <View style={{flexDirection: 'row', gap: 16}}>
-        <Icon name="hearto" color={'#FFF'} size={24} />
+        <Icon
+          name="hearto"
+          color={'#FFF'}
+          size={24}
+          onPress={() => navigation.navigate('RequestsScreen')}
+        />
         <Icon
           name="message1"
           color={'#FFF'}

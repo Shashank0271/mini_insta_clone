@@ -6,5 +6,6 @@ const NavigationStrings = {
   HomeScreen: 'HomeScreen',
   AddPostScreen: 'AddPostScreen',
   ProfileScreen: 'ProfileScreen',
+  SearchScreen: 'SearchScreen'
 };
 export default NavigationStrings;

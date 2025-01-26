@@ -15,8 +15,7 @@ import {ChatMessage} from '../../types/ChatMessage';
 const MessageScreen: FC = () => {
   const {params} =
     useRoute<RouteProp<RootStackNavigatorParamList, 'MessageScreen'>>();
-  const {chatId, recipientId} = params;
-
+  const {recipientId} = params;
   const [message, setMessage] = useState<string>('');
   const dispatch = useDispatch<AppDispatch>();
   const {isLoadingMessages, messages} = useSelector(
@@ -24,6 +23,20 @@ const MessageScreen: FC = () => {
   );
   const {userId} = useSelector((state: AppState) => state.user.appUser);
   const socketRef = useRef<WebSocket | undefined>();
+  const [chatId, setChatId] = useState<string>('');
+
+  const formChatId = (): string => {
+    if (userId < recipientId) {
+      return userId + recipientId;
+    }
+    return recipientId + userId;
+  };
+
+  console.log(messages);
+
+  useEffect(() => {
+    setChatId(formChatId());
+  }, []);
 
   useEffect(() => {
     dispatch(fetchChatMessages(chatId));
@@ -46,7 +59,7 @@ const MessageScreen: FC = () => {
       dispatch(appendMessage(incomingMessage));
     });
     return () => socket.close();
-  }, []);
+  }, [chatId]);
 
   console.log(`in message screen with chat id : ${chatId}`);
 

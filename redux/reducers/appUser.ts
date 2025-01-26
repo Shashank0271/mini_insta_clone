@@ -5,10 +5,10 @@ import {
 } from '@reduxjs/toolkit';
 import {Session} from '@supabase/supabase-js';
 import {fetchUserBySID} from '../apiCalls/user';
-import {AccountType, AppUser} from '../../types/User';
+import {AccountType, User} from '../../types/User';
 
 export interface UserState {
-  appUser: AppUser;
+  appUser: User;
   isLoadingUser: boolean;
   failedToLoadUser: boolean;
   session: Session | null | undefined;
@@ -55,7 +55,7 @@ const userSlice = createSlice({
     });
     builder.addCase(
       fetchUserBySID.fulfilled,
-      (state, action: PayloadAction<AppUser>) => {
+      (state, action: PayloadAction<User>) => {
         state.isLoadingUser = false;
         state.failedToLoadUser = false;
         state.appUser = action.payload;
@@ -64,5 +64,5 @@ const userSlice = createSlice({
   },
 });
 
-export const {setSession , setSupabaseId} = userSlice.actions;
+export const {setSession, setSupabaseId} = userSlice.actions;
 export default userSlice.reducer;

@@ -4,6 +4,7 @@ import followReducer from './reducers/follow';
 import postReducer from './reducers/posts';
 import commentReducer from './reducers/comment';
 import chatFeedReducer from './reducers/chat';
+import viewProfileReducer from './reducers/exploreProfile';
 
 const rootReducer = combineReducers({
   user: userReducer,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   post: postReducer,
   comment: commentReducer,
   chatFeed: chatFeedReducer,
+  viewProfile: viewProfileReducer,
 });
 
 export const store = configureStore({

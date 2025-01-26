@@ -1,8 +1,4 @@
-import {
-  FlatList,
-  StyleSheet,
-  View,
-} from 'react-native';
+import {FlatList, StyleSheet, View} from 'react-native';
 import React, {FC, useEffect, useRef} from 'react';
 import ProfileCircle from './components/ProfileCircle';
 import {useDispatch, useSelector} from 'react-redux';

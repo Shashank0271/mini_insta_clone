@@ -1,5 +1,11 @@
-import {ActionReducerMapBuilder, createSlice} from '@reduxjs/toolkit';
-import {fetchAllFollowers, fetchAllFollowing} from '../apiCalls/follow';
+import {ActionReducerMapBuilder, createSlice, isAnyOf} from '@reduxjs/toolkit';
+import {
+  fetchAllFollowers,
+  fetchAllFollowing,
+  followUser,
+  removeFollower,
+  unfollowUser,
+} from '../apiCalls/follow';
 import {FollowUser} from '../../types/FollowUser';
 
 export interface FollowState {
@@ -9,6 +15,9 @@ export interface FollowState {
   isLoadingFollowingData: boolean;
   loadingFollowerDataError: boolean;
   loadingFollowingDataError: boolean;
+  loadingRequest: boolean;
+  error: string;
+  isLoadingRequest: boolean;
 }
 
 const initialState: FollowState = {
@@ -18,12 +27,20 @@ const initialState: FollowState = {
   isLoadingFollowingData: true,
   loadingFollowerDataError: false,
   loadingFollowingDataError: false,
+  loadingRequest: false,
+  error: '',
+  isLoadingRequest: false,
 };
 
 const followSlice = createSlice({
   name: 'follow',
   initialState,
-  reducers: {},
+  reducers: {
+    removeFollowerFromList: (state, action) => {
+      const indexToRemove = action.payload as number;
+      state.followers.splice(indexToRemove, 1);
+    },
+  },
   extraReducers: (builder: ActionReducerMapBuilder<FollowState>) => {
     builder.addCase(fetchAllFollowing.pending, (state: FollowState, _) => {
       state.isLoadingFollowingData = true;
@@ -51,7 +68,37 @@ const followSlice = createSlice({
       state.loadingFollowerDataError = false;
       state.followers = action.payload;
     });
+    builder.addMatcher(
+      isAnyOf(followUser.pending, unfollowUser.pending, removeFollower.pending),
+      (state, _) => {
+        state.error = '';
+        state.loadingRequest = true;
+      },
+    );
+    builder.addMatcher(
+      isAnyOf(
+        followUser.rejected,
+        unfollowUser.rejected,
+        removeFollower.rejected,
+      ),
+      (state, action) => {
+        state.error = action.payload as string;
+        state.loadingRequest = false;
+      },
+    );
+    builder.addMatcher(
+      isAnyOf(
+        followUser.fulfilled,
+        unfollowUser.fulfilled,
+        removeFollower.fulfilled,
+      ),
+      (state, _) => {
+        state.error = '';
+        state.loadingRequest = false;
+      },
+    );
   },
 });
 
 export default followSlice.reducer;
+export const {removeFollowerFromList} = followSlice.actions;

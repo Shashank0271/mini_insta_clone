@@ -10,8 +10,12 @@ type RootStackNavigatorParamList = {
   AddPostScreen: undefined;
   ProfileScreen: undefined;
   LoadingScreen: undefined;
-  MessageScreen: {chatId: string; recipientId: string};
-  ConnectionsScreenTabs: undefined;
+  MessageScreen: {recipientId: string};
+  ConnectionsScreenTabs: {
+    initialRouteName:
+      | 'ConnectionsScreenFollowers'
+      | 'ConnectionsScreenFollowing';
+  };
   ConnectionsScreenFollowers: {
     connectionProfiles: Array<FollowUser>;
     heading: 'Followers';
@@ -22,8 +26,13 @@ type RootStackNavigatorParamList = {
   };
   ConnectionsScreen: {
     connectionProfiles: Array<FollowUser>;
-    heading: string;
+    heading: 'Followers' | 'Following';
   };
+  ExploreProfileScreen: {
+    otherUserSID: string;
+  };
+  SearchScreen: undefined;
+  RequestsScreen: undefined;
 };
 
 type RootStackNavigationProp = NavigationProp<RootStackNavigatorParamList>;

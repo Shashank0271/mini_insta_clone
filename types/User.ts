@@ -1,4 +1,4 @@
-export interface AppUser {
+export interface User {
   userId: string;
   supabaseId: string;
   name: string;

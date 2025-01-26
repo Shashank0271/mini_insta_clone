@@ -7,13 +7,14 @@ import AddPost from '../AddPostScreen/AddPost';
 import Profile from '../ProfileScreen/Profile';
 import HomeScreenHeader from '../HomeScreen/components/HomeScreenHeader';
 import {RootStackNavigatorParamList} from '../../type';
+import SearchScreen from '../SearchScreen/SearchScreen';
 
 const Tab = createBottomTabNavigator<RootStackNavigatorParamList>();
 
 const TabScreen: FC = () => {
   return (
     <Tab.Navigator
-      initialRouteName="HomeScreen" 
+      initialRouteName="HomeScreen"
       screenOptions={({route: {name: routeName}}) => ({
         tabBarIcon: ({focused}) => {
           let iconName: string = '';
@@ -26,6 +27,9 @@ const TabScreen: FC = () => {
               break;
             case NavigationStrings.ProfileScreen:
               iconName = focused ? 'person-circle' : 'person-circle-outline';
+              break;
+            case NavigationStrings.SearchScreen:
+              iconName = focused ? 'search-sharp' : 'search-outline';
           }
           return <Icon name={iconName} size={32} color={'white'} />;
         },
@@ -51,6 +55,13 @@ const TabScreen: FC = () => {
         }}
         name="ProfileScreen"
         component={Profile}
+      />
+      <Tab.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="SearchScreen"
+        component={SearchScreen}
       />
     </Tab.Navigator>
   );

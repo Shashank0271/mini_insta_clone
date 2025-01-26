@@ -19,6 +19,7 @@ import {fetchUserPosts} from '../../redux/apiCalls/posts';
 import LoaderKit from 'react-native-loader-kit';
 import {useNavigation} from '@react-navigation/native';
 import {RootStackNavigationProp} from '../../type';
+import {formatPostsGridData} from '../../utils/functions';
 
 const Profile: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -29,25 +30,10 @@ const Profile: FC = () => {
   const {isLoadingUserPosts, userPosts} = useSelector(
     (state: AppState) => state.post,
   );
+  
   useEffect(() => {
     dispatch(fetchUserPosts(appUser.userId));
   }, []);
-
-  const formatPostsGridData = (
-    dataP: Array<any>,
-    numCols: number,
-  ): Array<any> => {
-    const data = [...dataP];
-    const lastRowItems = data.length % numCols;
-    if (lastRowItems === 0) {
-      return data;
-    }
-    const blanks = numCols - lastRowItems;
-    for (let i = 0; i < blanks; i++) {
-      data.push({id: `blank-${i}`});
-    }
-    return data;
-  };
 
   return (
     <>
@@ -70,10 +56,21 @@ const Profile: FC = () => {
           <View style={styles.profileParamRow}>
             <ProfileParamView label="postrs" value={appUser.posts} />
             <TouchableOpacity
-              onPress={() => navigation.navigate('ConnectionsScreenTabs')}>
+              onPress={() =>
+                navigation.navigate('ConnectionsScreenTabs', {
+                  initialRouteName: 'ConnectionsScreenFollowers',
+                })
+              }>
               <ProfileParamView label="followers" value={appUser.followers} />
             </TouchableOpacity>
-            <ProfileParamView label="following" value={appUser.following} />
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('ConnectionsScreenTabs', {
+                  initialRouteName: 'ConnectionsScreenFollowing',
+                });
+              }}>
+              <ProfileParamView label="following" value={appUser.following} />
+            </TouchableOpacity>
           </View>
         </View>
 

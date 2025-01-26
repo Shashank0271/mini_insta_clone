@@ -9,9 +9,12 @@ import SignupScreen from '../SignupScreen/SignupScreen';
 import TabScreen from './TabScreen';
 import ChatScreen from '../ChatScreen/ChatScreen';
 import MessageScreen from '../MessageScreen/MessageScreen';
+import {RootStackNavigatorParamList} from '../../type';
 import ConnectionsScreenTabs from '../ConnectionsScreen/ConnectionsScreenTabs';
+import ExploreProfileScreen from '../ExploreProfileScreen/ExploreProfileScreen';
+import RequestsScreen from '../RequestsScreen/RequestsScreen';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackNavigatorParamList>();
 
 const StackScreen = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -42,6 +45,11 @@ const StackScreen = () => {
             name="ConnectionsScreenTabs"
             component={ConnectionsScreenTabs}
           />
+          <Stack.Screen
+            name="ExploreProfileScreen"
+            component={ExploreProfileScreen}
+          />
+          <Stack.Screen name="RequestsScreen" component={RequestsScreen} />
         </Stack.Group>
       )}
     </Stack.Navigator>

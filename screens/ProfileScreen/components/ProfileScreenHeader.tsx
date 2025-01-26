@@ -6,6 +6,7 @@ import {fontFamily} from '../../../constants/fonts';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FeatherIcons from 'react-native-vector-icons/Feather';
 
+
 interface ProfileScreenHeaderProps {
   onPress: () => void;
 }
@@ -15,7 +16,11 @@ const ProfileScreenHeader: FC<ProfileScreenHeaderProps> = ({onPress}) => {
   return (
     <View style={styles.profileScreenHeaderContainer}>
       <View style={styles.headerLeft}>
-        <FeatherIcons name="lock" size={18} color={'#FFF'} />
+        <FeatherIcons
+          name="lock"
+          size={18}
+          color={'#FFF'}
+        />
         <Text style={styles.text}>{appUser.name}</Text>
       </View>
       <MaterialIcons name="logout" color={'#FFF'} size={24} onPress={onPress} />

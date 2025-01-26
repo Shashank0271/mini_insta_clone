@@ -10,7 +10,7 @@ import React, {FC} from 'react';
 import {fontFamily} from '../constants/fonts';
 
 interface CustomButtonProps {
-  label: string;
+  label: string | React.ReactElement;
   labelStyle?: TextStyle;
   onPress: (...args: any) => unknown;
   wrapperProps?: ViewStyle;
